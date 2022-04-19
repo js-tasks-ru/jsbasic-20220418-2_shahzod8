@@ -1,3 +1,5 @@
 function checkSpam(str) {
-  // ваш код...
+  const regExp = /1xBet|XXX/gi;
+
+  return regExp.test(str);
 }
