@@ -1,6 +1,5 @@
 const getArrayOfNumbers = (str) => str
   .split(' ')
-  .map((element) => Number(element))
   .filter((num) => isFinite(num));
 
 function getMinMax(str) {
