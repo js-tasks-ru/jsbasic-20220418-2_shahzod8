@@ -1,5 +1,20 @@
+const handleSetTitle = (title, container) => {
+  const modalTitle = container.querySelector('.modal__title');
+  modalTitle.textContent = title;
+};
+
+const handleSetBody = (body, container) => {
+  const modalBody = container.querySelector('.modal__body');
+  modalBody.append(body);
+};
+
 const handleCloseModal = () => {
   const modalElement = document.querySelector('.modal');
+
+  if (!modalElement) {
+    return;
+  }
+
   modalElement.remove();
   document.body.classList.remove('is-modal-open');
   document.removeEventListener('keydown', handleKeyDown);
@@ -28,12 +43,6 @@ const renderModal = (title, body) => {
     </div>
   `;
 
-  const modalTitle = modal.querySelector('.modal__title');
-  modalTitle.textContent = title;
-
-  const modalBody = modal.querySelector('.modal__body');
-  modalBody.append(body);
-
   return modal;
 };
 
@@ -43,16 +52,14 @@ const addEventListener = (container) => {
 };
 
 export default class Modal {
-  #title = '';
-  #body = '';
-  #elem = '';
+  #elem;
 
   constructor() {
     this.#render();
   }
 
   #render() {
-    this.#elem = renderModal(this.#title, this.#body);
+    this.#elem = renderModal();
     addEventListener(this.#elem);
   }
 
@@ -67,12 +74,10 @@ export default class Modal {
   }
 
   setTitle(title) {
-    this.#title = title;
-    this.#render();
+    handleSetTitle(title, this.#elem);
   }
 
   setBody(body) {
-    this.#body = body;
-    this.#render();
+    handleSetBody(body, this.#elem);
   }
 }
