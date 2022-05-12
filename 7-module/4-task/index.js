@@ -61,4 +61,3 @@ export default class StepSlider extends OldStepSlider {
     addDragAndDrop(this.elem, this._steps);
   }
 }
-
