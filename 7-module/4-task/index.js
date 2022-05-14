@@ -1,6 +1,6 @@
-import OldStepSlider, { renderProgress } from "../3-task/index.js";
+import OldStepSlider, { renderProgress, getProgress } from "../3-task/index.js";
 
-const getProgress = (container, steps, coordinate) => {
+const getDragAndDropProgress = (container, steps, coordinate) => {
   const left = coordinate - container.getBoundingClientRect().left;
   let leftRelative = left / container.offsetWidth;
 
@@ -32,21 +32,29 @@ const addDragAndDrop = (container, steps) => {
     const handlePointerMove = (event) => {
       event.preventDefault();
 
-      const { percent, value } = getProgress(container, steps, event.clientX);
+      const { percent, value } = getDragAndDropProgress(container, steps, event.clientX);
       renderProgress(container, percent, value);
     };
 
-    document.addEventListener('pointermove', handlePointerMove);
-
-    sliderThumb.addEventListener('pointerup', () => {
+    const handleDrop = (event) => {
       document.removeEventListener('pointermove', handlePointerMove);
+      container.removeEventListener('pointerleave', handleDrop);
       container.classList.remove('slider_dragging');
+
+      const { percent, value } = getProgress(container, steps, event.clientX);
+      renderProgress(container, percent, value);
 
       container.dispatchEvent(new CustomEvent('slider-change', {
         detail: +container.querySelector('.slider__value').dataset.value,
         bubbles: true,
       }));
-    });
+    };
+
+    document.addEventListener('pointermove', handlePointerMove);
+
+    container.addEventListener('pointerleave', handleDrop);
+
+    sliderThumb.addEventListener('pointerup', handleDrop);
   });
 };
 
@@ -58,6 +66,6 @@ export default class StepSlider extends OldStepSlider {
 
   _addEventListeners() {
     super._addEventListeners();
-    addDragAndDrop(this.elem, this._steps);
+    addDragAndDrop(this.elem, this.steps);
   }
 }

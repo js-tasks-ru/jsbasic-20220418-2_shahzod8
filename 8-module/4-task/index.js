@@ -147,7 +147,7 @@ export default class Cart {
       cartItemElement.remove();
     }
 
-    if (modalBody.querySelectorAll('.cart-product').length === 0) {
+    if (modalBody.querySelectorAll('[data-product-id]').length === 0) {
       this.modal.close();
       this.cartIcon.update(this);
       return;

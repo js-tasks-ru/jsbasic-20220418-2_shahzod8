@@ -84,9 +84,10 @@ const addEventListeners = (container) => {
   const ribbonItems = ribbonInner.querySelectorAll('.ribbon__item');
 
   ribbonItems.forEach((item) => {
-    item.addEventListener('click', ({ target }) => {
+    item.addEventListener('click', (event) => {
+      event.preventDefault();
       ribbonItems.forEach(removeRibbonItemActiveClass);
-      target.classList.add('ribbon__item_active');
+      event.target.classList.add('ribbon__item_active');
     });
   });
 
@@ -101,6 +102,7 @@ const addEventListeners = (container) => {
 export default class RibbonMenu {
   constructor(categories) {
     this.categories = categories;
+    this.value = categories[0].id;
     this.#render();
   }
 

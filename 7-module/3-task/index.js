@@ -1,4 +1,4 @@
-const getProgress = (container, steps, coordinate) => {
+export const getProgress = (container, steps, coordinate) => {
   const left = coordinate - container.getBoundingClientRect().left;
   const leftRelative = left / container.offsetWidth;
   const segments = steps - 1;
@@ -41,18 +41,12 @@ const renderStepSlider = (steps, value) => {
     <div class="slider__steps">
       ${Array(steps)
         .fill('')
-        .map((step, index) => {
-          if (index === 0) {
-            return `<span class="slider__step-active" data-value="${index}"></span>`;
-          }
-
-          return `<span data-value="${index}"></span>`;
-        })
+        .map((step, index) => `<span data-value="${index}"></span>`)
         .join('')}
     </div>
   `;
 
-  renderProgress(slider, 0, value);
+  renderProgress(slider, 25 * value, value);
 
   return slider;
 };
@@ -72,17 +66,17 @@ const addEventListeners = (container, steps) => {
 
 export default class StepSlider {
   constructor({steps, value = 0}) {
-    this._steps = steps;
-    this._value = value;
+    this.steps = steps;
+    this.value = value;
     this._render();
   }
 
   _addEventListeners() {
-    addEventListeners(this.elem, this._steps);
+    addEventListeners(this.elem, this.steps);
   }
 
   _render() {
-    this.elem = renderStepSlider(this._steps, this._value);
+    this.elem = renderStepSlider(this.steps, this.value);
     this._addEventListeners();
   }
 }
