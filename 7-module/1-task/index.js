@@ -71,7 +71,7 @@ const handleDisplayArrow = (container) => ({ target }) => {
   rightArrow.classList.add('ribbon__arrow_visible');
 };
 
-const addEventListener = (container) => {
+const addEventListeners = (container) => {
   const ribbonInner = container.querySelector('.ribbon__inner');
 
   ribbonInner.addEventListener('click', ({ target }) => {
@@ -106,6 +106,6 @@ export default class RibbonMenu {
 
   #render() {
     this.elem = renderRibbonMenu(this.categories);
-    addEventListener(this.elem);
+    addEventListeners(this.elem);
   }
 }

@@ -77,7 +77,7 @@ const handleDisplayArrow = (number, maxNumber, container) => {
   }
 };
 
-const addEventListener = (container) => {
+const addEventListeners = (container) => {
   carouselArrows.forEach((arrow) => {
     const arrowElement = container.querySelector(`.${arrow}`);
 
@@ -111,6 +111,6 @@ export default class Carousel {
 
   #render() {
     this.elem = renderCarousel(this.slides);
-    addEventListener(this.elem);
+    addEventListeners(this.elem);
   }
 }

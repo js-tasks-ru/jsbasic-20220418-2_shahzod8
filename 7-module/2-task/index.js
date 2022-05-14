@@ -5,6 +5,7 @@ const handleSetTitle = (title, container) => {
 
 const handleSetBody = (body, container) => {
   const modalBody = container.querySelector('.modal__body');
+  modalBody.innerHTML = '';
   modalBody.append(body);
 };
 
@@ -26,7 +27,7 @@ const handleKeyDown = ({ code }) => {
   }
 };
 
-const renderModal = (title, body) => {
+const renderModal = () => {
   const modal = document.createElement('div');
   modal.classList.add('modal');
 
@@ -46,25 +47,23 @@ const renderModal = (title, body) => {
   return modal;
 };
 
-const addEventListener = (container) => {
+const addEventListeners = (container) => {
   const modalClose = container.querySelector('.modal__close');
   modalClose.addEventListener('click', handleCloseModal);
 };
 
 export default class Modal {
-  #elem;
-
   constructor() {
     this.#render();
   }
 
   #render() {
-    this.#elem = renderModal();
-    addEventListener(this.#elem);
+    this.elem = renderModal();
+    addEventListeners(this.elem);
   }
 
   open() {
-    document.body.prepend(this.#elem);
+    document.body.prepend(this.elem);
     document.body.classList.add('is-modal-open');
     document.addEventListener('keydown', handleKeyDown);
   }
@@ -74,10 +73,10 @@ export default class Modal {
   }
 
   setTitle(title) {
-    handleSetTitle(title, this.#elem);
+    handleSetTitle(title, this.elem);
   }
 
   setBody(body) {
-    handleSetBody(body, this.#elem);
+    handleSetBody(body, this.elem);
   }
 }

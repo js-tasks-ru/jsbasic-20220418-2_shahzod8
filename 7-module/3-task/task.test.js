@@ -13,7 +13,7 @@ describe('7-module-3-task', () => {
     config = {
       steps: 3,
       value: 0,
-    }
+    };
 
     styleElement = createElement(`
       <style>
@@ -158,7 +158,7 @@ describe('7-module-3-task', () => {
       pointerMoveClientX = sliderRectLeft + 99;
 
       clickEvent = new MouseEvent('click', { clientX: pointerMoveClientX, bubbles: true });
-    })
+    });
 
     it('должен перемещать ползунок', () => {
       stepSlider.elem.dispatchEvent(clickEvent);

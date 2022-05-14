@@ -57,7 +57,7 @@ const renderStepSlider = (steps, value) => {
   return slider;
 };
 
-const addEventListener = (container, steps) => {
+const addEventListeners = (container, steps) => {
   container.addEventListener('click', (event) => {
     const { percent, value } = getProgress(container, steps, event.clientX);
 
@@ -77,12 +77,12 @@ export default class StepSlider {
     this._render();
   }
 
-  _addEventListener() {
-    addEventListener(this.elem, this._steps);
+  _addEventListeners() {
+    addEventListeners(this.elem, this._steps);
   }
 
   _render() {
     this.elem = renderStepSlider(this._steps, this._value);
-    this._addEventListener();
+    this._addEventListeners();
   }
 }

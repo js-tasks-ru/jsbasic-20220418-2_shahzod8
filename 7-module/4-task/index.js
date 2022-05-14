@@ -56,8 +56,8 @@ export default class StepSlider extends OldStepSlider {
     super._render();
   }
 
-  _addEventListener() {
-    super._addEventListener();
+  _addEventListeners() {
+    super._addEventListeners();
     addDragAndDrop(this.elem, this._steps);
   }
 }
