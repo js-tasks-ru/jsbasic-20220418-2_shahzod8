@@ -136,6 +136,7 @@ export default class Cart {
   onProductUpdate(cartItem) {
     if (!this.modal) {
       this.cartIcon.update(this);
+
       return;
     }
 
@@ -145,20 +146,24 @@ export default class Cart {
     if (cartItem.count === 0) {
       const cartItemElement = modalBody.querySelector(productIdSelector);
       cartItemElement.remove();
+    } else {
+      const productCount = modalBody.querySelector(`${productIdSelector} .cart-counter__count`);
+      const productPrice = modalBody.querySelector(`${productIdSelector} .cart-product__price`);
+
+      productCount.innerHTML = cartItem.count;
+      productPrice.innerHTML = `€${(cartItem.product.price * cartItem.count).toFixed(2)}`;
     }
 
     if (modalBody.querySelectorAll('[data-product-id]').length === 0) {
       this.modal.close();
+      delete this.modal;
       this.cartIcon.update(this);
+
       return;
     }
 
-    const productCount = modalBody.querySelector(`${productIdSelector} .cart-counter__count`);
-    const productPrice = modalBody.querySelector(`${productIdSelector} .cart-product__price`);
     const infoPrice = modalBody.querySelector(`.cart-buttons__info-price`);
 
-    productCount.innerHTML = cartItem.count;
-    productPrice.innerHTML = `€${(cartItem.product.price * cartItem.count).toFixed(2)}`;
     infoPrice.innerHTML = `€${this.getTotalPrice().toFixed(2)}`;
 
     this.cartIcon.update(this);
