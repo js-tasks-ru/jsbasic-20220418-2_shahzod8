@@ -71,12 +71,8 @@ export default class StepSlider {
     this._render();
   }
 
-  _addEventListeners() {
-    addEventListeners(this.elem, this.steps);
-  }
-
   _render() {
     this.elem = renderStepSlider(this.steps, this.value);
-    this._addEventListeners();
+    addEventListeners(this.elem, this.steps);
   }
 }

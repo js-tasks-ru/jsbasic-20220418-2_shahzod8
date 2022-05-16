@@ -59,13 +59,8 @@ const addDragAndDrop = (container, steps) => {
 };
 
 export default class StepSlider extends OldStepSlider {
-  constructor({ steps, value = 0 }) {
-    super({ steps, value });
+  _render() {
     super._render();
-  }
-
-  _addEventListeners() {
-    super._addEventListeners();
     addDragAndDrop(this.elem, this.steps);
   }
 }
