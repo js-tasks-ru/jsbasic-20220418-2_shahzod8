@@ -105,12 +105,11 @@ const addEventListeners = (container) => {
 
 export default class Carousel {
   constructor(slides) {
-    this.slides = slides;
-    this.#render();
+    this.#render(slides);
   }
 
-  #render() {
-    this.elem = renderCarousel(this.slides);
+  #render(slides) {
+    this.elem = renderCarousel(slides);
     addEventListeners(this.elem);
   }
 }

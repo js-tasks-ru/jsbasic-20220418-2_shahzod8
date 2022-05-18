@@ -63,22 +63,25 @@ const renderProductsGrid = (products, filters) => {
 const addEventListeners = () => {};
 
 export default class ProductGrid {
+  #products;
+  #filters;
+
   constructor(products) {
-    this.products = products;
-    this.filters = {};
-    this.#render();
+    this.#products = products;
+    this.#filters = {};
+    this.#render(products);
   }
 
   #render() {
-    this.elem = renderProductsGrid(this.products, this.filters);
+    this.elem = renderProductsGrid(this.#products, this.#filters);
     addEventListeners(this.elem);
   }
 
   updateFilter(filters) {
-    this.filters = { ...this.filters, ...filters };
+    this.#filters = { ...this.#filters, ...filters };
 
     this.elem.innerHTML = '';
-    const filteredProducts = getFilteredProducts(this.products, this.filters);
+    const filteredProducts = getFilteredProducts(this.#products, this.#filters);
 
     this.elem.append(renderProductsGridInner(filteredProducts));
   }

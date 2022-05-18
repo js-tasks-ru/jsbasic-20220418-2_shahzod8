@@ -101,13 +101,12 @@ const addEventListeners = (container) => {
 
 export default class RibbonMenu {
   constructor(categories) {
-    this.categories = categories;
     this.value = categories[0].id;
-    this.#render();
+    this.#render(categories);
   }
 
-  #render() {
-    this.elem = renderRibbonMenu(this.categories);
+  #render(categories) {
+    this.elem = renderRibbonMenu(categories);
     addEventListeners(this.elem);
   }
 }

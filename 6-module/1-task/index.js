@@ -12,55 +12,56 @@
  *      }
  *
  */
+
+const renderTable = (rows) => {
+  const table = document.createElement('table');
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Имя</th>
+        <th>Возраст</th>
+        <th>Зарплата</th>
+        <th>Город</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows.map(({name, age, salary, city}) => `
+        <tr>
+          <td>${name}</td>
+          <td>${age}</td>
+          <td>${salary}</td>
+          <td>${city}</td>
+          <td><button>X</button></td>
+        </tr>
+      `).join('')}
+    </tbody>
+  `;
+
+  return table;
+};
+
+const deleteRow = ({ target }) => {
+  target.closest('tr').remove();
+  target.removeEventListener('click', deleteRow);
+};
+
+const addEventListeners = (container) => {
+  const deleteButtons = container.querySelectorAll('button');
+
+  deleteButtons.forEach((button) => {
+    button.addEventListener('click', deleteRow);
+  });
+};
+
 export default class UserTable {
   constructor(rows) {
-    this.elem = this.renderTable(rows);
+    this.#render(rows);
   }
 
-  renderTable(rows) {
-    const table = document.createElement('table');
-
-    table.innerHTML = `
-      <thead>
-        <tr>
-          <th>Имя</th>
-          <th>Возраст</th>
-          <th>Зарплата</th>
-          <th>Город</th>
-          <th></th>
-        </tr>
-    </thead>
-    `;
-
-    const tableBody = document.createElement('tbody');
-
-    rows.forEach((row) => tableBody.insertAdjacentElement('beforeend', this.renderRow(row)));
-
-    table.append(tableBody);
-    return table;
-  }
-
-  renderRow(row) {
-    const tableRow = document.createElement('tr');
-
-    Object.values(row).forEach((value) => {
-      const tableData = document.createElement('td');
-      tableData.textContent = value;
-      tableRow.append(tableData);
-    });
-
-    const tableDataDeleteButton = document.createElement('td');
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'X';
-    deleteButton.addEventListener('click', ({ target }) => this.deleteRow(target));
-    tableDataDeleteButton.append(deleteButton);
-
-    tableRow.append(tableDataDeleteButton);
-
-    return tableRow;
-  }
-
-  deleteRow(element) {
-    element.parentElement.parentElement.remove();
+  #render(rows) {
+    this.elem = renderTable(rows);
+    addEventListeners(this.elem);
   }
 }

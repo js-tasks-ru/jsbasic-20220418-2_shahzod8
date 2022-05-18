@@ -1,4 +1,4 @@
-const renderCard = ({ name, price, image, id }) => {
+const renderProductCard = ({ name, price, image, id }) => {
   const card = document.createElement('div');
   card.classList.add('card');
 
@@ -18,7 +18,7 @@ const renderCard = ({ name, price, image, id }) => {
   return card;
 };
 
-const addEventListener = (container) => {
+const addEventListeners = (container) => {
   const cardButton = container.querySelector('.card__button');
 
   cardButton.addEventListener('click', () => {
@@ -30,15 +30,12 @@ const addEventListener = (container) => {
 };
 
 export default class ProductCard {
-  #product;
-
   constructor(product) {
-    this.#product = product;
-    this.#render();
+    this.#render(product);
   }
 
-  #render() {
-    this.elem = renderCard(this.#product);
-    addEventListener(this.elem);
+  #render(product) {
+    this.elem = renderProductCard(product);
+    addEventListeners(this.elem);
   }
 }
