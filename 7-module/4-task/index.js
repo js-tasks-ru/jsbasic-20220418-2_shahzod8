@@ -41,7 +41,19 @@ const addDragAndDrop = (container, steps) => {
       container.removeEventListener('pointerleave', handleDrop);
       container.classList.remove('slider_dragging');
 
-      const { percent, value } = getProgress(container, steps, event.clientX);
+      const { right, left } = container.getBoundingClientRect();
+
+      let coordinate = event.clientX;
+
+      if (event.clientX > right) {
+        coordinate = right;
+      }
+
+      if (event.clientX < left) {
+        coordinate = left;
+      }
+
+      const { percent, value } = getProgress(container, steps, coordinate);
       renderProgress(container, percent, value);
 
       container.dispatchEvent(new CustomEvent('slider-change', {
@@ -52,9 +64,7 @@ const addDragAndDrop = (container, steps) => {
 
     document.addEventListener('pointermove', handlePointerMove);
 
-    container.addEventListener('pointerleave', handleDrop);
-
-    sliderThumb.addEventListener('pointerup', handleDrop);
+    document.addEventListener('pointerup', handleDrop);
   });
 };
 
