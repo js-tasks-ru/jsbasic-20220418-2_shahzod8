@@ -13,7 +13,7 @@ describe('7-module-4-task', () => {
     config = {
       steps: 3,
       value: 0,
-    }
+    };
 
     styleElement = createElement(`
       <style>
@@ -162,7 +162,7 @@ describe('7-module-4-task', () => {
       pointerDownEvent = new PointerEvent('pointerdown', { bubbles: true });
       pointerMoveEvent = new PointerEvent('pointermove', { clientX: pointerMoveClientX, bubbles: true });
       pointerUpEvent = new PointerEvent('pointerup', { clientX: pointerMoveClientX, bubbles: true });
-    })
+    });
 
     it('должен перемещать ползунок после захвата и перемещения', () => {
       thumb.dispatchEvent(pointerDownEvent);
@@ -216,7 +216,7 @@ describe('7-module-4-task', () => {
       pointerMoveClientX = sliderRectLeft + 99;
 
       clickEvent = new MouseEvent('click', { clientX: pointerMoveClientX, bubbles: true });
-    })
+    });
 
     it('должен перемещать ползунок', () => {
       stepSlider.elem.dispatchEvent(clickEvent);

@@ -27,7 +27,7 @@ describe('8-module-4-task', () => {
         "id": "som-tam-papaya-salad",
         "spiciness": 0
       }
-    ]
+    ];
 
     cartIcon = jasmine.createSpyObj('cartIcon', ['update']);
     cartIcon.elem = cartIconElem;

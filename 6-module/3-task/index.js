@@ -6,11 +6,11 @@ const mappingArrowsImage = {
 };
 
 const mappingCarouselArrows = {
-  'carousel__arrow_right': (carouselInner) => {
-    carouselInner.dataset.currentSlide = +carouselInner.dataset.currentSlide + 1;
+  'carousel__arrow_right': (inner) => {
+    inner.dataset.currentSlide = +inner.dataset.currentSlide + 1;
   },
-  'carousel__arrow_left': (carouselInner) => {
-    carouselInner.dataset.currentSlide = +carouselInner.dataset.currentSlide - 1;
+  'carousel__arrow_left': (inner) => {
+    inner.dataset.currentSlide = +inner.dataset.currentSlide - 1;
   },
 };
 
@@ -41,47 +41,43 @@ const renderCarousel = (slides) => {
   carousel.classList.add('carousel');
 
   carouselArrows.forEach((arrow) => {
-    carousel.innerHTML += renderCarouselArrow(arrow);
+    carousel.insertAdjacentHTML('beforeend', renderCarouselArrow(arrow));
   });
 
-  carousel.innerHTML += `
-    <div class="carousel__inner" data-current-slide="0">
+  carousel.insertAdjacentHTML('beforeend',
+    `<div class="carousel__inner" data-current-slide="0">
       ${slides.map((slide) => renderCarouselSlide(slide)).join('')}
-    </div>
-  `;
+    </div>`
+  );
 
   return carousel;
 };
 
-const generateCustomEvent = (element, id) => {
-  element.dispatchEvent(new CustomEvent('product-add', {
+const generateCustomEvent = (id) => ({ target }) => {
+  target.dispatchEvent(new CustomEvent('product-add', {
     detail: id,
     bubbles: true,
   }));
 };
 
 const handleDisplayArrow = (number, maxNumber, container) => {
-  const arrows = container.querySelectorAll('.carousel__arrow');
+  const leftArrow = container.querySelector('.carousel__arrow_left');
+  const rightArrow = container.querySelector('.carousel__arrow_right');
 
-  if (!arrows) {
-    return;
-  }
-
-  switch (number) {
-  case '0':
-    arrows[1].style.display = 'none';
+  switch (+number) {
+  case 0:
+    leftArrow.style.display = 'none';
     break;
-  case String(maxNumber):
-    arrows[0].style.display = 'none';
+  case maxNumber:
+    rightArrow.style.display = 'none';
     break;
   default:
-    arrows.forEach((arrow) => {
-      arrow.style.display = '';
-    });
+    leftArrow.style.display = '';
+    rightArrow.style.display = '';
   }
 };
 
-const addEventListener = (container) => {
+const addEventListeners = (container) => {
   carouselArrows.forEach((arrow) => {
     const arrowElement = container.querySelector(`.${arrow}`);
 
@@ -103,20 +99,17 @@ const addEventListener = (container) => {
 
   carouselSlides.forEach((slide) => {
     const carouselButton = slide.querySelector('.carousel__button');
-    carouselButton.addEventListener('click',
-      ({target}) => generateCustomEvent(target, slide.dataset.id)
-    );
+    carouselButton.addEventListener('click', generateCustomEvent(slide.dataset.id));
   });
 };
 
 export default class Carousel {
   constructor(slides) {
-    this.slides = slides;
-    this.render();
+    this.#render(slides);
   }
 
-  render() {
-    this.elem = renderCarousel(this.slides);
-    addEventListener(this.elem);
+  #render(slides) {
+    this.elem = renderCarousel(slides);
+    addEventListeners(this.elem);
   }
 }
